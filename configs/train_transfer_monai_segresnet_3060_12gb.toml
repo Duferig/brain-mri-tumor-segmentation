@@ -1,0 +1,49 @@
+[experiment]
+name = "transfer-segresnet-monai-3060-12gb"
+output_dir = "artifacts/runs/transfer_segresnet_monai_3060_12gb"
+
+[data]
+train_manifest = "artifacts/manifests/train.json"
+val_manifest = "artifacts/manifests/val.json"
+test_manifest = "artifacts/manifests/test.json"
+num_workers = 2
+val_num_workers = 0
+persistent_workers = true
+val_persistent_workers = false
+prefetch_factor = 2
+val_prefetch_factor = 1
+cache_rate = 0.0
+persistent_cache_dir = "artifacts/persistent_cache/transfer_segresnet_monai_3060_12gb"
+roi_size = [96, 96, 96]
+batch_size = 2
+sw_batch_size = 12
+infer_overlap = 0.5
+
+[training]
+model_name = "segresnet"
+seed = 42
+epochs = 12
+patience = 4
+learning_rate = 0.00005
+weight_decay = 0.00001
+amp = true
+threshold = 0.5
+val_interval = 1
+compute_hd95 = false
+pretrained_weights = "models/brats_mri_segmentation/models/model.pt"
+pretrained_strict = true
+
+[model]
+in_channels = 4
+out_channels = 3
+
+[hardware]
+device = "cuda"
+max_gpu_temperature_c = 82
+max_gpu_memory_used_mb = 11264
+gpu_monitor_interval_steps = 50
+
+[artifacts]
+checkpoint_path = "artifacts/models/transfer_segresnet_monai_3060_12gb_best.pt"
+history_path = "artifacts/metrics/transfer_segresnet_monai_3060_12gb_history.csv"
+summary_path = "artifacts/metrics/transfer_segresnet_monai_3060_12gb_summary.json"

@@ -1,0 +1,9 @@
+{
+  "counts": {
+    "test": 189,
+    "train": 875,
+    "val": 187
+  },
+  "dataset_root": "C:\\DIPLOM_project\\ASNR-MICCAI-BraTS2023-GLI-Challenge-TrainingData",
+  "seed": 42
+}

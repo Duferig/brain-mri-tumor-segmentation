@@ -1,0 +1,37 @@
+[experiment]
+name = "improved-swinunetr-3060-12gb"
+output_dir = "artifacts/runs/improved_3060_12gb"
+
+[data]
+train_manifest = "artifacts/manifests/train.json"
+val_manifest = "artifacts/manifests/val.json"
+test_manifest = "artifacts/manifests/test.json"
+num_workers = 4
+cache_rate = 0.0
+roi_size = [64, 64, 64]
+batch_size = 1
+sw_batch_size = 1
+infer_overlap = 0.25
+
+[training]
+model_name = "improved"
+seed = 42
+epochs = 30
+patience = 5
+learning_rate = 0.0001
+weight_decay = 0.00001
+amp = true
+threshold = 0.5
+val_interval = 2
+
+[model]
+in_channels = 4
+out_channels = 3
+
+[hardware]
+device = "cuda"
+
+[artifacts]
+checkpoint_path = "artifacts/models/improved_3060_12gb_best.pt"
+history_path = "artifacts/metrics/improved_3060_12gb_history.csv"
+summary_path = "artifacts/metrics/improved_3060_12gb_summary.json"

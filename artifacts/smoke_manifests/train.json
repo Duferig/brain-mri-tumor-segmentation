@@ -1,0 +1,34 @@
+[
+  {
+    "case_id": "BraTS-SYN-002",
+    "image": [
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_t1.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_t1ce.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_t2.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_flair.nii.gz"
+    ],
+    "modality_map": {
+      "t1": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_t1.nii.gz",
+      "t1ce": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_t1ce.nii.gz",
+      "t2": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_t2.nii.gz",
+      "flair": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_flair.nii.gz"
+    },
+    "label": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-002\\BraTS-SYN-002_seg.nii.gz"
+  },
+  {
+    "case_id": "BraTS-SYN-001",
+    "image": [
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_t1.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_t1ce.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_t2.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_flair.nii.gz"
+    ],
+    "modality_map": {
+      "t1": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_t1.nii.gz",
+      "t1ce": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_t1ce.nii.gz",
+      "t2": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_t2.nii.gz",
+      "flair": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_flair.nii.gz"
+    },
+    "label": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-001\\BraTS-SYN-001_seg.nii.gz"
+  }
+]

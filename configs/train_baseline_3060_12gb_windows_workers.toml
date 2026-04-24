@@ -1,0 +1,44 @@
+[experiment]
+name = "baseline-3d-unet-3060-12gb-windows-workers"
+output_dir = "artifacts/runs/baseline_3060_12gb_windows_workers"
+
+[data]
+train_manifest = "artifacts/manifests/train.json"
+val_manifest = "artifacts/manifests/val.json"
+test_manifest = "artifacts/manifests/test.json"
+num_workers = 2
+persistent_workers = true
+prefetch_factor = 2
+cache_rate = 0.0
+persistent_cache_dir = "artifacts/persistent_cache/baseline_3060_12gb_fast_persistent_compact_v2"
+roi_size = [96, 96, 96]
+batch_size = 2
+sw_batch_size = 12
+infer_overlap = 0.5
+
+[training]
+model_name = "baseline"
+seed = 42
+epochs = 24
+patience = 4
+learning_rate = 0.0002
+weight_decay = 0.00001
+amp = true
+threshold = 0.5
+val_interval = 6
+compute_hd95 = false
+
+[model]
+in_channels = 4
+out_channels = 3
+
+[hardware]
+device = "cuda"
+max_gpu_temperature_c = 82
+max_gpu_memory_used_mb = 11264
+gpu_monitor_interval_steps = 50
+
+[artifacts]
+checkpoint_path = "artifacts/models/baseline_3060_12gb_windows_workers_best.pt"
+history_path = "artifacts/metrics/baseline_3060_12gb_windows_workers_history.csv"
+summary_path = "artifacts/metrics/baseline_3060_12gb_windows_workers_summary.json"

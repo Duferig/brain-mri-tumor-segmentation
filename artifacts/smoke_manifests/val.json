@@ -1,0 +1,18 @@
+[
+  {
+    "case_id": "BraTS-SYN-003",
+    "image": [
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_t1.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_t1ce.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_t2.nii.gz",
+      "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_flair.nii.gz"
+    ],
+    "modality_map": {
+      "t1": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_t1.nii.gz",
+      "t1ce": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_t1ce.nii.gz",
+      "t2": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_t2.nii.gz",
+      "flair": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_flair.nii.gz"
+    },
+    "label": "D:\\DIPLOM\\artifacts\\smoke_dataset\\BraTS-SYN-003\\BraTS-SYN-003_seg.nii.gz"
+  }
+]

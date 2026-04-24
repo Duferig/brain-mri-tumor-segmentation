@@ -1,0 +1,9 @@
+{
+  "counts": {
+    "test": 1,
+    "train": 2,
+    "val": 1
+  },
+  "dataset_root": "D:\\DIPLOM\\artifacts\\smoke_dataset",
+  "seed": 42
+}
