@@ -19,6 +19,34 @@ class PreviewImage(BaseModel):
     highlighted_labels: list[str] = Field(default_factory=list)
 
 
+class ModelInfo(BaseModel):
+    key: str
+    name: str
+    display_name: str
+    roi_size: list[int]
+    weights_available: bool
+
+
+class ModelsResponse(BaseModel):
+    models: list[ModelInfo]
+
+
+class ExperimentSummary(BaseModel):
+    key: str
+    experiment_name: str
+    model_name: str
+    best_epoch: int | None = None
+    mean_dice: float | None = None
+    dice_tc: float | None = None
+    dice_wt: float | None = None
+    dice_et: float | None = None
+    checkpoint_available: bool = False
+
+
+class ExperimentsResponse(BaseModel):
+    experiments: list[ExperimentSummary]
+
+
 class PredictionResponse(BaseModel):
     prediction_id: str
     model_used: str
@@ -26,3 +54,4 @@ class PredictionResponse(BaseModel):
     segmentation_url: str
     voxel_statistics: dict[str, int] = Field(default_factory=dict)
     preview_images: list[PreviewImage] = Field(default_factory=list)
+    reference_metrics: dict[str, float] | None = None

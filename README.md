@@ -44,6 +44,21 @@ brain-seg-api --config configs\inference.toml
 brain-seg-ui --config configs\inference.toml
 ```
 
+## Новый веб-интерфейс для демонстрации
+
+Основной демонстрационный UI находится в `web/` и работает поверх FastAPI.
+
+```powershell
+brain-seg-api --config configs\inference.toml
+cd web
+npm install
+npm run dev
+```
+
+После запуска откройте `http://127.0.0.1:5173`.
+
+Streamlit-интерфейс `brain-seg-ui` сохранен как запасной вариант.
+
 ## Формат данных
 
 Для каждого случая ожидаются четыре MRI-модальности:
@@ -61,4 +76,3 @@ Label map в формате BraTS использует метки `0`, `1`, `2`,
 - `pytest`
 
 Если зависимости для full runtime не установлены, статическая проверка синтаксиса всё равно должна проходить.
-

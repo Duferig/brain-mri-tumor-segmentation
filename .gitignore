@@ -12,9 +12,17 @@ env/
 .DS_Store
 .install/
 .ipynb_checkpoints/
+diploma_examples/
+diploma_work/
+output/
 build/
 dist/
 *.egg-info/
+web/node_modules/
+web/dist/
+web/*.tsbuildinfo
+web/vite.config.js
+web/vite.config.d.ts
 
 artifacts/models/*.pt
 artifacts/predictions/*
