@@ -1,21 +1,23 @@
 from __future__ import annotations
 
+from typing import Any
+
 import torch
 
 from monai.transforms import (
     Compose,
-    ConvertToMultiChannelBasedOnBratsClassesd,
     CropForegroundd,
     DeleteItemsd,
     EnsureChannelFirstd,
     EnsureTyped,
     Lambdad,
     LoadImaged,
+    MapTransform,
     NormalizeIntensityd,
+    RandCropByPosNegLabeld,
     RandFlipd,
     RandRotate90d,
     RandShiftIntensityd,
-    RandSpatialCropd,
 )
 
 
@@ -24,13 +26,32 @@ def _compact_cached_tensor(data: torch.Tensor) -> torch.Tensor:
     return data.clone(memory_format=torch.contiguous_format)
 
 
+class CustomConvertBratsLabelsd(MapTransform):
+    """Convert BraTS labels to TC/WT/ET regions while accepting label 3 or 4 as ET."""
+
+    def __call__(self, data: dict[str, Any]) -> dict[str, Any]:
+        result = dict(data)
+        for key in self.keys:
+            label = result[key]
+            if not torch.is_tensor(label):
+                label = torch.as_tensor(label)
+            if label.ndim == 3:
+                label = label.unsqueeze(0)
+
+            et = torch.logical_or(label == 3, label == 4)
+            tc = torch.logical_or(label == 1, et)
+            wt = torch.logical_or(torch.logical_or(label == 1, label == 2), et)
+            result[key] = torch.cat([tc, wt, et], dim=0).float()
+        return result
+
+
 def build_train_transform(roi_size: tuple[int, int, int]) -> Compose:
     return Compose(
         [
             LoadImaged(keys=["image", "label"]),
             EnsureChannelFirstd(keys="image"),
             EnsureTyped(keys=["image"], data_type="tensor", track_meta=False),
-            ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
+            CustomConvertBratsLabelsd(keys="label"),
             EnsureTyped(
                 keys=["label"],
                 data_type="tensor",
@@ -43,7 +64,16 @@ def build_train_transform(roi_size: tuple[int, int, int]) -> Compose:
             DeleteItemsd(
                 keys=["case_id", "modality_map", "foreground_start_coord", "foreground_end_coord"],
             ),
-            RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
+            RandCropByPosNegLabeld(
+                keys=["image", "label"],
+                label_key="label",
+                spatial_size=roi_size,
+                pos=2,
+                neg=1,
+                num_samples=1,
+                image_key="image",
+                image_threshold=0,
+            ),
             RandFlipd(keys=["image", "label"], prob=0.5, spatial_axis=0),
             RandFlipd(keys=["image", "label"], prob=0.5, spatial_axis=1),
             RandFlipd(keys=["image", "label"], prob=0.5, spatial_axis=2),
@@ -65,7 +95,7 @@ def build_eval_transform() -> Compose:
             LoadImaged(keys=["image", "label"]),
             EnsureChannelFirstd(keys="image"),
             EnsureTyped(keys=["image"], data_type="tensor", track_meta=False),
-            ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
+            CustomConvertBratsLabelsd(keys="label"),
             EnsureTyped(
                 keys=["label"],
                 data_type="tensor",
