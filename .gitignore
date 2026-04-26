@@ -57,3 +57,4 @@ ASNR-MICCAI-BraTS2023-GLI-Challenge-TrainingData/
 # Large numeric/cache arrays
 *.npy
 *.npz
+ASNR-MICCAI-BraTS2023-GLI-Challenge-TrainingData/
