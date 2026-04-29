@@ -8,27 +8,13 @@ preview_modality = "flair"
 preview_opacity = 0.45
 max_upload_size_mb = 1024
 
-[models.baseline]
-name = "baseline"
-display_name = "Baseline 3D U-Net"
-weights = "artifacts/models/baseline_3060_12gb_quality_best.pt"
-roi_size = [96, 96, 96]
-device = "cuda"
-
-[models.transfer]
-name = "segresnet"
-display_name = "Transfer SegResNet"
-weights = "artifacts/models/transfer_segresnet_monai_3060_12gb_best.pt"
-roi_size = [96, 96, 96]
-device = "cuda"
-
-[models.transfer_v2]
-name = "segresnet"
-display_name = "Transfer SegResNet v2 (ET Refine)"
-weights = "artifacts/models/transfer_segresnet_monai_3060_12gb_et_refine_v2_best.pt"
+[models.improved]
+name = "improved"
+display_name = "Improved SwinUNETR"
+weights = "artifacts/models/improved_best.pt"
 roi_size = [96, 96, 96]
 device = "cuda"
 
 [ui]
 api_url = "http://127.0.0.1:8000"
-default_model = "baseline"
+default_model = "improved"

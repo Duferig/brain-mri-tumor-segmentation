@@ -37,30 +37,16 @@ def _write_inference_config(tmp_path: Path) -> Path:
                 "preview_opacity = 0.45",
                 "max_upload_size_mb = 10",
                 "",
-                "[models.baseline]",
-                'name = "baseline"',
-                'display_name = "Baseline 3D U-Net"',
-                f'weights = "{(artifacts / "models" / "baseline.pt").as_posix()}"',
-                "roi_size = [96, 96, 96]",
-                'device = "cpu"',
-                "",
-                "[models.transfer]",
-                'name = "segresnet"',
-                'display_name = "Transfer SegResNet"',
-                f'weights = "{(artifacts / "models" / "transfer.pt").as_posix()}"',
-                "roi_size = [96, 96, 96]",
-                'device = "cpu"',
-                "",
-                "[models.transfer_v2]",
-                'name = "segresnet"',
-                'display_name = "Transfer SegResNet v2 (ET Refine)"',
-                f'weights = "{(artifacts / "models" / "transfer_v2.pt").as_posix()}"',
+                "[models.improved]",
+                'name = "improved"',
+                'display_name = "Improved SwinUNETR"',
+                f'weights = "{(artifacts / "models" / "improved.pt").as_posix()}"',
                 "roi_size = [96, 96, 96]",
                 'device = "cpu"',
                 "",
                 "[ui]",
                 'api_url = "http://127.0.0.1:8000"',
-                'default_model = "baseline"',
+                'default_model = "improved"',
             ]
         ),
         encoding="utf-8",
@@ -84,17 +70,19 @@ def test_api_health_and_predict_contract(tmp_path, monkeypatch) -> None:
     config_path = _write_inference_config(tmp_path)
     metrics_dir = tmp_path / "artifacts" / "metrics"
     metrics_dir.mkdir(parents=True, exist_ok=True)
-    (metrics_dir / "baseline_summary.json").write_text(
+    (metrics_dir / "improved_summary.json").write_text(
         (
-            '{"experiment_name": "baseline", "model_name": "baseline", '
-            '"best_epoch": 8, "mean_dice": 0.5, "dice_tc": 0.6, '
-            '"dice_wt": 0.7, "dice_et": 0.0, "checkpoint_path": "missing.pt"}'
+            '{"experiment_name": "improved-swinunetr", "model_name": "improved", '
+            '"best_epoch": 23, "mean_dice": 0.8747, "dice_tc": null, '
+            '"dice_wt": null, "dice_et": null, '
+            f'"checkpoint_path": "{(tmp_path / "artifacts" / "models" / "improved.pt").as_posix()}"'
+            "}"
         ),
         encoding="utf-8",
     )
     app = create_app(str(config_path))
 
-    def fake_predict(saved_files, model_key="baseline"):
+    def fake_predict(saved_files, model_key="improved"):
         prediction_dir = tmp_path / "artifacts" / "predictions" / "case123"
         prediction_dir.mkdir(parents=True, exist_ok=True)
         segmentation_path = prediction_dir / "seg.nii.gz"
@@ -132,7 +120,7 @@ def test_api_health_and_predict_contract(tmp_path, monkeypatch) -> None:
 
     health_response = client.get("/health")
     assert health_response.status_code == 200
-    assert health_response.json()["available_models"] == ["baseline", "transfer", "transfer_v2"]
+    assert health_response.json()["available_models"] == ["improved"]
     assert health_response.headers.get("access-control-allow-origin") is None
 
     cors_response = client.get("/health", headers={"Origin": "http://127.0.0.1:5173"})
@@ -141,20 +129,16 @@ def test_api_health_and_predict_contract(tmp_path, monkeypatch) -> None:
     models_response = client.get("/models")
     assert models_response.status_code == 200
     models_payload = models_response.json()
-    assert [item["key"] for item in models_payload["models"]] == [
-        "baseline",
-        "transfer",
-        "transfer_v2",
-    ]
-    assert models_payload["models"][0]["display_name"] == "Baseline 3D U-Net"
+    assert [item["key"] for item in models_payload["models"]] == ["improved"]
+    assert models_payload["models"][0]["display_name"] == "Improved SwinUNETR"
     assert models_payload["models"][0]["roi_size"] == [96, 96, 96]
     assert models_payload["models"][0]["weights_available"] is False
 
     experiments_response = client.get("/experiments")
     assert experiments_response.status_code == 200
     experiments = experiments_response.json()["experiments"]
-    assert experiments[0]["experiment_name"] == "baseline"
-    assert experiments[0]["mean_dice"] == 0.5
+    assert experiments[0]["experiment_name"] == "improved-swinunetr"
+    assert experiments[0]["mean_dice"] == 0.8747
     assert experiments[0]["checkpoint_available"] is False
 
     files = {
@@ -167,7 +151,7 @@ def test_api_health_and_predict_contract(tmp_path, monkeypatch) -> None:
     assert predict_response.status_code == 200
     payload = predict_response.json()
     assert payload["prediction_id"] == "case123"
-    assert payload["model_used"] == "baseline"
+    assert payload["model_used"] == "improved"
     assert payload["segmentation_url"].endswith("/artifacts/predictions/case123/seg.nii.gz")
     assert payload["preview_images"][0]["modality"] == "FLAIR"
     assert payload["preview_images"][0]["original_url"].endswith(

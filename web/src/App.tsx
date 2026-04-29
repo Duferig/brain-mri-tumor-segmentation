@@ -222,7 +222,7 @@ function App() {
               <div className="legend-row">
                 <span><i className="legend yellow" /> TC / label 1</span>
                 <span><i className="legend blue" /> WT edema / label 2</span>
-                <span><i className="legend red" /> ET / label 4</span>
+                <span><i className="legend red" /> ET / label 3/4</span>
               </div>
               <div className="slice-notes">
                 {selectedPreview.highlighted_labels.map((label) => (
@@ -406,6 +406,9 @@ function formatMetric(value?: number | null): string {
 function shortExperimentName(experiment: ExperimentSummary): string {
   if (experiment.experiment_name.includes("transfer-segresnet")) {
     return experiment.experiment_name.includes("refine") ? "SegResNet v2" : "SegResNet";
+  }
+  if (experiment.experiment_name.includes("improved") || experiment.model_name === "improved") {
+    return "SwinUNETR";
   }
   if (experiment.experiment_name.includes("baseline")) {
     return "3D U-Net";

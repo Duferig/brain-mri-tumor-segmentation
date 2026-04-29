@@ -56,7 +56,7 @@ class SegmentationPredictor:
         self.config.runtime.uploads_dir.mkdir(parents=True, exist_ok=True)
         self._models: dict[str, tuple[torch.nn.Module, torch.device, InferenceModelConfig]] = {}
 
-    def predict(self, modalities: dict[str, Path], model_key: str = "baseline") -> PredictionResult:
+    def predict(self, modalities: dict[str, Path], model_key: str = "improved") -> PredictionResult:
         if model_key not in self.config.models:
             raise KeyError(f"Unknown model '{model_key}'")
         case = CaseFiles(

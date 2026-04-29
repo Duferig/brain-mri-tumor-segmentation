@@ -174,6 +174,7 @@ def load_experiment_summaries(config: InferenceAppConfig) -> list[ExperimentSumm
     metrics_dir = config.runtime.artifacts_dir / "metrics"
     if not metrics_dir.exists():
         return []
+    configured_weights = {model.weights.resolve() for model in config.models.values()}
     summaries: list[ExperimentSummary] = []
     for path in sorted(metrics_dir.glob("*_summary.json")):
         try:
@@ -181,6 +182,18 @@ def load_experiment_summaries(config: InferenceAppConfig) -> list[ExperimentSumm
         except (OSError, json.JSONDecodeError):
             continue
         checkpoint_path = Path(str(payload.get("checkpoint_path", "")))
+        checkpoint_candidates = []
+        if checkpoint_path.name:
+            checkpoint_candidates.append(checkpoint_path)
+            if not checkpoint_path.is_absolute():
+                checkpoint_candidates.append(config.runtime.artifacts_dir.parent / checkpoint_path)
+            checkpoint_candidates.append(config.runtime.artifacts_dir / "models" / checkpoint_path.name)
+        is_configured_model = any(
+            candidate.resolve() in configured_weights
+            for candidate in checkpoint_candidates
+        )
+        if not is_configured_model:
+            continue
         checkpoint_available = checkpoint_path.exists()
         if not checkpoint_available and checkpoint_path.name:
             checkpoint_available = (config.runtime.artifacts_dir / "models" / checkpoint_path.name).exists()
