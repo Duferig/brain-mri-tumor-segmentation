@@ -1,6 +1,6 @@
 # Brain MRI Segmentation Web UI
 
-React/Vite interface for the diploma demo.
+React/Vite interface for the brain MRI tumor segmentation demo.
 
 ## Run
 

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "brain-mri-segmentation"
 version = "0.1.0"
-description = "Diploma prototype for automatic brain tumor segmentation on MRI."
+description = "Research prototype for automatic brain tumor segmentation on multimodal MRI."
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
 dependencies = [

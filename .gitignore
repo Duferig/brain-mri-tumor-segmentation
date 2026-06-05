@@ -12,9 +12,8 @@ env/
 .DS_Store
 .install/
 .ipynb_checkpoints/
-diploma_examples/
-diploma_work/
 output/
+tmp/
 build/
 dist/
 *.egg-info/

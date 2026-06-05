@@ -1,4 +1,4 @@
-"""Brain MRI segmentation diploma prototype."""
+"""Brain MRI tumor segmentation research prototype."""
 
 __all__ = ["__version__"]
 

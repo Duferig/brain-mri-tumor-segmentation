@@ -1,6 +1,8 @@
 # Brain MRI Tumor Segmentation
 
-Исследовательский прототип для дипломной работы по автоматической сегментации опухолей головного мозга на МРТ.
+Research prototype for automated brain tumor segmentation on multimodal MRI.
+The project explores deep learning methods that can support medical image analysis,
+reproducible experiments, and clear visualization of segmentation results.
 
 ## Что входит
 
@@ -17,7 +19,7 @@
 - `src/brain_mri_segmentation/ui` — Streamlit UI.
 - `configs` — TOML-конфиги для обучения и инференса.
 - `artifacts` — веса, метрики, предсказания и вспомогательные артефакты.
-- `docs` — Colab workflow и структура дипломного текста.
+- `docs` — Colab workflow and supporting project notes.
 
 ## Рекомендуемое окружение
 

@@ -1,4 +1,4 @@
-# Experiment Notes For Diploma
+# Experiment Notes
 
 ## Current Hardware And Constraints
 
@@ -59,7 +59,7 @@ Interpretation:
 Practical conclusion:
 
 - In the current configuration, `improved` did not justify its higher training cost.
-- For the diploma, this can be described as an experiment where a more complex architecture did not outperform the simpler baseline under available computational constraints.
+- This can be described as a practical research result where a more complex architecture did not outperform the simpler baseline under available computational constraints.
 
 ## Why The Results Are Moderate
 
@@ -139,9 +139,9 @@ Important artifact management note:
 - old checkpoints are not deleted or overwritten
 - the new weights are intended to be treated as a separate experimental version
 
-## Suggested Diploma Wording
+## Suggested Research Wording
 
-Possible neutral wording for the thesis:
+Possible neutral wording for the project report:
 
 > In the course of the experiments, two architectures were evaluated: a baseline 3D U-Net model and an improved SwinUNETR model. The baseline model demonstrated the best practical result in the available computational environment, achieving a mean Dice score of 0.5362. The improved architecture, despite its higher representational capacity, did not outperform the baseline under the given constraints.
 
@@ -155,7 +155,7 @@ Transition to the next section:
 
 ## Notes For Final Writing
 
-When writing the diploma text, it is better to state:
+When writing the final project text, it is better to state:
 
 - the baseline result was the strongest among the completed runs
 - the improved model was tested and analyzed, but did not exceed the baseline
