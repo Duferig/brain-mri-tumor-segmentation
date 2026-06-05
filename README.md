@@ -4,26 +4,28 @@ Research prototype for automated brain tumor segmentation on multimodal MRI.
 The project explores deep learning methods that can support medical image analysis,
 reproducible experiments, and clear visualization of segmentation results.
 
-## Что входит
+## Features
 
-- `PyTorch + MONAI` пайплайн для обучения baseline `3D U-Net` и improved `SwinUNETR`.
-- Генератор манифестов для `BraTS`.
-- Скрипты обучения, оценки и сравнения моделей.
-- `FastAPI` сервис инференса с выдачей `seg.nii.gz`, preview PNG и voxel-статистики.
-- `Streamlit` демо-интерфейс для загрузки 4 MRI-модальностей и просмотра результата.
+- `PyTorch + MONAI` training pipeline for a baseline `3D U-Net` model and an improved `SwinUNETR` model.
+- BraTS manifest generation and dataset validation utilities.
+- Scripts for model training, evaluation, and experiment comparison.
+- `FastAPI` inference service that returns `seg.nii.gz`, preview PNG images, and voxel statistics.
+- `Streamlit` fallback demo interface for uploading four MRI modalities and reviewing segmentation results.
+- React/Vite web interface for the main interactive demo.
 
-## Структура
+## Project Structure
 
-- `src/brain_mri_segmentation/ml` — данные, модели, тренировка, оценка, инференс.
-- `src/brain_mri_segmentation/api` — HTTP API.
-- `src/brain_mri_segmentation/ui` — Streamlit UI.
-- `configs` — TOML-конфиги для обучения и инференса.
-- `artifacts` — веса, метрики, предсказания и вспомогательные артефакты.
-- `docs` — Colab workflow and supporting project notes.
+- `src/brain_mri_segmentation/ml` - data processing, models, training, evaluation, and inference.
+- `src/brain_mri_segmentation/api` - HTTP API for model inference and artifact access.
+- `src/brain_mri_segmentation/ui` - Streamlit demo UI.
+- `web` - React/Vite web interface for the FastAPI backend.
+- `configs` - TOML configuration files for training and inference.
+- `artifacts` - local model weights, metrics, predictions, and generated runtime artifacts.
+- `docs` - Colab workflow and supporting project notes.
 
-## Рекомендуемое окружение
+## Environment
 
-Для реальной установки нужен Python `3.10`–`3.12`.
+Python `3.10` to `3.12` is recommended.
 
 ```powershell
 python -m venv .venv
@@ -31,12 +33,12 @@ python -m venv .venv
 pip install -e .[dev]
 ```
 
-## Быстрый старт
+## Quick Start
 
-1. Подготовить `BraTS` и сгенерировать train/val/test manifests.
-2. Обучить baseline и improved модели.
-3. Запустить API.
-4. Запустить Streamlit UI.
+1. Prepare the BraTS dataset and generate train/validation/test manifests.
+2. Train the baseline and improved models.
+3. Start the FastAPI inference service.
+4. Start the demo UI.
 
 ```powershell
 brain-seg-manifest --dataset-root D:\data\BraTS --output-dir artifacts\manifests
@@ -46,9 +48,9 @@ brain-seg-api --config configs\inference.toml
 brain-seg-ui --config configs\inference.toml
 ```
 
-## Новый веб-интерфейс для демонстрации
+## Web Demo
 
-Основной демонстрационный UI находится в `web/` и работает поверх FastAPI.
+The main demo UI is located in `web/` and runs on top of the FastAPI backend.
 
 ```powershell
 brain-seg-api --config configs\inference.toml
@@ -57,36 +59,39 @@ npm install
 npm run dev
 ```
 
-После запуска откройте `http://127.0.0.1:5173`.
+After startup, open `http://127.0.0.1:5173`.
 
-Streamlit-интерфейс `brain-seg-ui` сохранен как запасной вариант.
+The `brain-seg-ui` Streamlit interface is kept as a fallback option.
 
-## Формат данных
+## Data Format
 
-Для каждого случая ожидаются четыре MRI-модальности:
+Each case is expected to contain four MRI modalities:
 
 - `T1`
 - `T1ce`
 - `T2`
 - `FLAIR`
 
-Во время обучения label автоматически переводится в регионы `TC`, `WT`, `ET`.
-Проект поддерживает оба варианта BraTS-разметки для enhancing tumor:
+During training, the label map is converted into the `TC`, `WT`, and `ET` target regions.
+The project supports both common BraTS enhancing tumor label variants:
 
-- классический `label 4`;
-- вариант BraTS 2023 GLI с `label 3`.
+- classic `label 4`;
+- BraTS 2023 GLI `label 3`.
 
-Проверить распределение меток в локальном датасете можно так:
+Check label distribution in a local dataset with:
 
 ```powershell
 python scripts\check_labels.py D:\data\BraTS
 ```
 
-Если в датасете ET хранится как `label 3`, старые веса, обученные со стандартным MONAI-маппингом `label 4`, лучше переобучить или дообучить.
+If `ET` is stored as `label 3`, old weights trained with the standard MONAI `label 4`
+mapping should be retrained or fine-tuned.
 
-## Проверки
+## Validation
 
-- `python -m compileall src tests`
-- `pytest`
+```powershell
+python -m compileall src tests
+pytest
+```
 
-Если зависимости для full runtime не установлены, статическая проверка синтаксиса всё равно должна проходить.
+If full runtime dependencies are not installed, the static syntax check should still pass.
